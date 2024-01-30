@@ -19,6 +19,16 @@ def contains_urls_or_ip_addresses(text):
 def contains_time_based_keywords(text):
     time_based_keywords =['SLEEP', 'WAITFOR DELAY', 'DBMS_LOCK.SLEEP', 'PG_SLEEP', 'BENCHMARK', 'IF','CASE']
     return any(keyword in text.lower() for keyword in time_based_keywords)
+def count_semicolons(sentence):
+    return sentence.count(';')
+
+# Function to count the number of opening brackets in a sentence
+def count_opening_brackets(sentence):
+    return sentence.count('(')
+
+# Function to count the number of closing brackets in a sentence
+def count_closing_brackets(sentence):
+    return sentence.count(')')
 
 df = pd.read_csv('dataset1.csv')
 df['Sentence']=df["Sentence"].astype(str)
@@ -27,8 +37,9 @@ df['Label']=df["Label"].astype(int)
 df['length'] = df['Sentence'].apply(len)
 df['special_chars'] = df['Sentence'].apply(lambda x: sum(c.isalnum() for c in x))
 df['numeric_chars'] = df['Sentence'].apply(lambda x: sum(c.isdigit() for c in x))
-df['uppercase_chars'] = df['Sentence'].apply(lambda x: sum(c.isupper() for c in x))
-df['lowercase_chars'] = df['Sentence'].apply(lambda x: sum(c.islower() for c in x))
+df['num_semicolons'] = df['Sentence'].apply(count_semicolons)
+df['num_opening_brackets'] = df['Sentence'].apply(count_opening_brackets)
+df['num_closing_brackets'] = df['Sentence'].apply(count_closing_brackets)
 df['whitespace_chars'] = df['Sentence'].apply(lambda x: sum(c.isspace() for c in x))
 df['dns_request_count'] = df['Sentence'].apply(count_dns_requests)
 df['contains_out_of_band_keywords'] = df['Sentence'].apply(contains_out_of_band_keywords)
@@ -66,7 +77,6 @@ from sklearn.utils.class_weight import compute_class_weight
 #     1: class_weights[1] * sum(feature_weights.values()) / len(feature_weights)
 # }
 
-# Initialize the Random Forest classifier with class weights
 rf_classifier = RandomForestClassifier(n_estimators=100, random_state=42)
 
 

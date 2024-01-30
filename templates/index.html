@@ -40,6 +40,12 @@
             border-radius: 4px;
         }
 
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Left-align */
+        }
+
         button {
             background-color: #4caf50;
             color: #fff;
@@ -64,11 +70,36 @@
         <br>
         <label for="password">Enter Password:</label>
         <input type="password" id="password" name="password" required>
-        <br>
+        <!-- <div class="checkbox-container">
+            <input type="checkbox" onclick="myFunction()"> Show Password
+        </div> -->
         <button type="submit">Detect SQL Injection</button>
     </form>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
 </body>
 
 </html>
 
 
+
+
+<script>
+function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
